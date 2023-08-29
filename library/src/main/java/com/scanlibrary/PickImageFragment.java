@@ -267,7 +267,7 @@ public class PickImageFragment extends Fragment {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
             } else {
-                Toast.makeText(getActivity(), "Keine Berechtigungen für die Kamera und den Speicher erteiilt", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Keine Berechtigungen für die F///ing Kamera und den Speicher erteiilt", Toast.LENGTH_LONG).show();
             }
 
         }
