@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.ComponentCallbacks2;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by jhansi on 28/03/15.
@@ -96,11 +100,6 @@ public class ScanActivity extends Activity implements IScanner, ComponentCallbac
                    If the event is TRIM_MEMORY_COMPLETE, the process will be one of
                    the first to be terminated.
                 */
-                new AlertDialog.Builder(this)
-                        .setTitle(R.string.low_memory)
-                        .setMessage(R.string.low_memory_message)
-                        .create()
-                        .show();
                 break;
             default:
                 /*
@@ -124,6 +123,7 @@ public class ScanActivity extends Activity implements IScanner, ComponentCallbac
     public native float[] getPoints(Bitmap bitmap);
 
     static {
-        Loader.load();
+        System.loadLibrary("opencv_java3");
+        System.loadLibrary("Scanner");
     }
 }

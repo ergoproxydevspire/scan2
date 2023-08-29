@@ -32,6 +32,7 @@ import java.util.Map;
 public class ScanFragment extends Fragment {
 
     private Button scanButton;
+    private Button backButton;
     private ImageView sourceImageView;
     private FrameLayout sourceFrame;
     private PolygonView polygonView;
@@ -64,6 +65,8 @@ public class ScanFragment extends Fragment {
         sourceImageView = (ImageView) view.findViewById(R.id.sourceImageView);
         scanButton = (Button) view.findViewById(R.id.scanButton);
         scanButton.setOnClickListener(new ScanButtonClickListener());
+        backButton = (Button) view.findViewById(R.id.backButton);
+        backButton.setOnClickListener(new BackButtonClickListener());
         sourceFrame = (FrameLayout) view.findViewById(R.id.sourceFrame);
         polygonView = (PolygonView) view.findViewById(R.id.polygonView);
         sourceFrame.post(new Runnable() {
@@ -84,6 +87,8 @@ public class ScanFragment extends Fragment {
             getActivity().getContentResolver().delete(uri, null, null);
             return bitmap;
         } catch (IOException e) {
+            // Loading not possible. Return the uri without cropping
+            scanner.onScanFinish(uri);
             e.printStackTrace();
         }
         return null;
@@ -232,6 +237,14 @@ public class ScanFragment extends Fragment {
         FragmentManager fm = getFragmentManager();
         progressDialogFragment.show(fm, ProgressDialogFragment.class.toString());
     }
+
+    private class BackButtonClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            getFragmentManager().popBackStack();
+        }
+    }
+
 
     protected void dismissDialog() {
         progressDialogFragment.dismissAllowingStateLoss();
