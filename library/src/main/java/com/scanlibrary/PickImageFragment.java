@@ -119,18 +119,13 @@ public class PickImageFragment extends Fragment {
     public void openMediaContent() {
         camorgal = 1;
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_MEDIA_VIDEO) == PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED ) {
             Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("image/*");
             startActivityForResult(intent, ScanConstants.PICKFILE_REQUEST_CODE);
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO}, MY_PICK_IMAGE_REQUEST_CODE);
-            } else {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO}, MY_PICK_IMAGE_REQUEST_CODE);
-            }
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES}, MY_PICK_IMAGE_REQUEST_CODE);
         }
 
     }
@@ -138,8 +133,7 @@ public class PickImageFragment extends Fragment {
     public void openCamera() {
         camorgal = 0;
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_MEDIA_VIDEO) == PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             File file = createImageFile();
             boolean isDirectoryCreated = file.getParentFile().mkdirs();
@@ -155,11 +149,8 @@ public class PickImageFragment extends Fragment {
             }
             startActivityForResult(cameraIntent, ScanConstants.START_CAMERA_REQUEST_CODE);
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO}, MY_CAMERA_REQUEST_CODE);
-            } else {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VIDEO}, MY_CAMERA_REQUEST_CODE);
-            }
+
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES}, MY_CAMERA_REQUEST_CODE);
         }
     }
 
@@ -272,10 +263,10 @@ public class PickImageFragment extends Fragment {
 
         }
         if (requestCode == MY_PICK_IMAGE_REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if (grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 openMediaContent();
             } else {
-                Toast.makeText(getActivity(), "Keine Berechtigungen für die Kamera und den Speicher erteiilt", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Keine Berechtigungen für die Image und den Speicher erteiilt", Toast.LENGTH_LONG).show();
             }
 
         }
