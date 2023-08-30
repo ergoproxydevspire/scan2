@@ -270,7 +270,7 @@ public class PickImageFragment extends Fragment {
              String fourth = first.concat(second); 
              String fifth = fourth.concat(third);
             
-            if ( grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+            if ( grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(getActivity(), fifth, Toast.LENGTH_LONG).show();
                 openCamera();
             } else {
