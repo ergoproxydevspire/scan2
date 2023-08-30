@@ -125,9 +125,6 @@ public class PickImageFragment extends Fragment {
             intent.setType("image/*");
             startActivityForResult(intent, ScanConstants.PICKFILE_REQUEST_CODE);
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES}, MY_PICK_IMAGE_REQUEST_CODE);
-            } else {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES}, MY_PICK_IMAGE_REQUEST_CODE);
             }
         }
@@ -153,9 +150,7 @@ public class PickImageFragment extends Fragment {
             }
             startActivityForResult(cameraIntent, ScanConstants.START_CAMERA_REQUEST_CODE);
         } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES}, MY_CAMERA_REQUEST_CODE);
-            } else {
+          
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES}, MY_CAMERA_REQUEST_CODE);
             }
         }
@@ -262,13 +257,7 @@ public class PickImageFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_CAMERA_REQUEST_CODE) {
-              String first = Integer.toString( grantResults[0]); 
-             String second = Integer.toString( grantResults[1]);
-             String fourth = first.concat(second); 
-             Toast.makeText(getActivity(), fourth, Toast.LENGTH_LONG).show();
-            
             if ( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-               
                 openCamera();
             } else {
                 Toast.makeText(getActivity(), "Keine Berechtigungen für die Kamera und den Speicher erteiilt", Toast.LENGTH_LONG).show();
@@ -276,12 +265,6 @@ public class PickImageFragment extends Fragment {
 
         }
         if (requestCode == MY_PICK_IMAGE_REQUEST_CODE) {
-                 String first = Integer.toString( grantResults[0]); 
-             String second = Integer.toString( grantResults[1]);
-             String third = Integer.toString( grantResults[2]);
-             String fourth = first.concat(second); 
-             String fifth = fourth.concat(third);
-             Toast.makeText(getActivity(), fifth, Toast.LENGTH_LONG).show();
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 openMediaContent();
             } else {
