@@ -137,9 +137,7 @@ public class PickImageFragment extends Fragment {
 
     public void openCamera() {
         camorgal = 0;
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED ) {
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             File file = createImageFile();
             boolean isDirectoryCreated = file.getParentFile().mkdirs();
@@ -269,9 +267,10 @@ public class PickImageFragment extends Fragment {
              String third = Integer.toString( grantResults[2]);
              String fourth = first.concat(second); 
              String fifth = fourth.concat(third);
+             Toast.makeText(getActivity(), fifth, Toast.LENGTH_LONG).show();
             
             if ( grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(getActivity(), fifth, Toast.LENGTH_LONG).show();
+               
                 openCamera();
             } else {
                 Toast.makeText(getActivity(), "Keine Berechtigungen für die F///ing Kamera und den Speicher erteiilt", Toast.LENGTH_LONG).show();
@@ -279,7 +278,13 @@ public class PickImageFragment extends Fragment {
 
         }
         if (requestCode == MY_PICK_IMAGE_REQUEST_CODE) {
-            if ( grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+                 String first = Integer.toString( grantResults[0]); 
+             String second = Integer.toString( grantResults[1]);
+             String third = Integer.toString( grantResults[2]);
+             String fourth = first.concat(second); 
+             String fifth = fourth.concat(third);
+             Toast.makeText(getActivity(), fifth, Toast.LENGTH_LONG).show();
+            if ( grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
                 openMediaContent();
             } else {
                 Toast.makeText(getActivity(), "Keine Berechtigungen für die Image und den Speicher erteiilt", Toast.LENGTH_LONG).show();
