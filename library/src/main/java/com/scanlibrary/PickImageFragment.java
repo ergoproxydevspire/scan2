@@ -263,10 +263,13 @@ public class PickImageFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Toast.makeText(getActivity(), grantResults[0], Toast.LENGTH_LONG).show();
-        Toast.makeText(getActivity(), grantResults[1], Toast.LENGTH_LONG).show();
-        Toast.makeText(getActivity(), grantResults[2], Toast.LENGTH_LONG).show();
         if (requestCode == MY_CAMERA_REQUEST_CODE) {
+              String first = Integer.toString( grantResults[0]); 
+             String second = Integer.toString( grantResults[1]);
+             String third = Integer.toString( grantResults[2]);
+             String fourth = first.concat(second); 
+             Toast.makeText(getActivity(), fourth, Toast.LENGTH_LONG).show();
+            
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
             } else {
