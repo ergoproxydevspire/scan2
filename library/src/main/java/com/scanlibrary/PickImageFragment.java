@@ -41,7 +41,6 @@ public class PickImageFragment extends Fragment {
     private Uri fileUri;
     private IScanner scanner;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    private static final int MY_PICK_IMAGE_REQUEST_CODE = 101;
 
     @Override
     public void onAttach(Activity activity) {
@@ -118,25 +117,19 @@ public class PickImageFragment extends Fragment {
 
     public void openMediaContent() {
         camorgal = 1;
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED ) {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("image/*");
-            startActivityForResult(intent, ScanConstants.PICKFILE_REQUEST_CODE);
-        } else {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES}, MY_PICK_IMAGE_REQUEST_CODE);
-        }
-
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/*");
+        startActivityForResult(intent, ScanConstants.PICKFILE_REQUEST_CODE);
     }
 
     public void openCamera() {
         camorgal = 0;
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             File file = createImageFile();
             boolean isDirectoryCreated = file.getParentFile().mkdirs();
+            Log.d("", "openCamera: isDirectoryCreated: " + isDirectoryCreated);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             String aut =   getActivity().getApplicationContext().getPackageName() + ".com.scanlibrary.provider"; // As defined in Manifest
                 Uri tempFileUri = FileProvider.getUriForFile(getActivity().getApplicationContext(),
@@ -149,8 +142,7 @@ public class PickImageFragment extends Fragment {
             }
             startActivityForResult(cameraIntent, ScanConstants.START_CAMERA_REQUEST_CODE);
         } else {
-
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_MEDIA_IMAGES}, MY_CAMERA_REQUEST_CODE);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
         }
     }
 
@@ -166,6 +158,7 @@ public class PickImageFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("", "onActivityResult" + resultCode);
         Bitmap bitmap = null;
         if (resultCode == Activity.RESULT_OK) {
             try {
@@ -258,15 +251,7 @@ public class PickImageFragment extends Fragment {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCamera();
             } else {
-                Toast.makeText(getActivity(), "Keine Berechtigungen für die Kamera und den Speicher erteiilt", Toast.LENGTH_LONG).show();
-            }
-
-        }
-        if (requestCode == MY_PICK_IMAGE_REQUEST_CODE) {
-            if (grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                openMediaContent();
-            } else {
-                Toast.makeText(getActivity(), "Keine Berechtigungen für die Image und den Speicher erteiilt", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "camera permission denied", Toast.LENGTH_LONG).show();
             }
 
         }
