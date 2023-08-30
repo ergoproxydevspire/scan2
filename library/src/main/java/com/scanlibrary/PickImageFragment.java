@@ -269,9 +269,6 @@ public class PickImageFragment extends Fragment {
              String third = Integer.toString( grantResults[2]);
              String fourth = first.concat(second); 
              String fifth = fourth.concat(third);
-            System.out.println(
-             "Double Array: "
-            + Arrays.toString(grantResults));
              Toast.makeText(getActivity(), fifth, Toast.LENGTH_LONG).show();
             
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
