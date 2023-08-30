@@ -269,11 +269,12 @@ public class PickImageFragment extends Fragment {
              String fifth = fourth.concat(third);
              Toast.makeText(getActivity(), fifth, Toast.LENGTH_LONG).show();
             
-            if ( grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            if ( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
                
                 openCamera();
             } else {
                 Toast.makeText(getActivity(), "Keine Berechtigungen für die F///ing Kamera und den Speicher erteiilt", Toast.LENGTH_LONG).show();
+                 requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_CAMERA_REQUEST_CODE);
             }
 
         }
@@ -284,10 +285,11 @@ public class PickImageFragment extends Fragment {
              String fourth = first.concat(second); 
              String fifth = fourth.concat(third);
              Toast.makeText(getActivity(), fifth, Toast.LENGTH_LONG).show();
-            if ( grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED ) {
                 openMediaContent();
             } else {
                 Toast.makeText(getActivity(), "Keine Berechtigungen für die Image und den Speicher erteiilt", Toast.LENGTH_LONG).show();
+                 requestPermissions(new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_CAMERA_REQUEST_CODE);
             }
 
         }
