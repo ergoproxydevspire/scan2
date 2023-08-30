@@ -269,9 +269,9 @@ public class PickImageFragment extends Fragment {
              String third = Integer.toString( grantResults[2]);
              String fourth = first.concat(second); 
              String fifth = fourth.concat(third);
-             Toast.makeText(getActivity(), fifth, Toast.LENGTH_LONG).show();
             
             if ( grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getActivity(), fifth, Toast.LENGTH_LONG).show();
                 openCamera();
             } else {
                 Toast.makeText(getActivity(), "Keine Berechtigungen für die F///ing Kamera und den Speicher erteiilt", Toast.LENGTH_LONG).show();
